@@ -1,0 +1,107 @@
+<div ng-include="'src/tpl/nav.html'"></div> 
+
+<div class="col-md-2">
+	<div class="list-group">
+	  <a  ng-repeat="a in file" class="{{navActive[a.active]}}" ng-click="setActive($index)">
+	    {{a.title}}
+	  </a>
+	</div>
+</div>
+
+<div class="col-md-10">
+	<div class="row">
+		<div class="col-md-4">
+			<input type="text" class="form-control" placeholder="search" ng-model="search">
+		</div>
+		<button type="button" class="btn btn-primary btn-default" data-toggle="modal" 
+		data-target="#myModal" ng-click="create(table.title)">
+		  	Insert 
+		</button>
+	</div>
+
+	<div class="row" style="padding-top: 20px;">
+		<table class="table table-bordered">
+			<tr>
+				<th style="width:50px;">No</th>
+				<th ng-repeat="b in table.properties">{{b.label}}</th>
+				<th style="width:70px;">Action</th>
+			</tr>
+
+			<tr ng-repeat="a in table.data | filter:search">
+				<td style="width:50px;">{{$index+1}}</td>
+				<td ng-repeat="b in table.properties">
+					<div ng-if="b.foregn_key==undefined">
+						{{ a[b.model] }}
+					</div>
+					<div ng-if="b.foregn_key==true">
+						{{ a[b.parent_label] }}
+					</div>
+				</td>
+				<td style="width:70px;">
+					<button class="btn btn-xs btn-default" ng-click="update(table.title,a,$index)"
+					 data-toggle="modal" data-target="#myModal">
+						<i class="fa fa-pencil"></i>
+					</button>
+					<button class="btn btn-xs btn-default" ng-click="delete(table.title,a,$index)"
+					 data-toggle="modal" data-target="#myModal">
+						<i class="fa fa-trash-o"></i>
+					</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+	<!-- Modal -->
+	<form class="form-horizontal">
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+		aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Form {{table.title}}</h4>
+		      </div>
+		      <div class="modal-body">
+
+					<div class="form-group" ng-if="action=='create'||action=='update'" 
+					ng-repeat="a in table.properties">
+				    	<label class="col-sm-3 control-label" style="text-align:left;">
+				    		{{a.label}}
+				    	</label>
+					    <div class="col-sm-9">
+					    	
+					    	<div ng-if="a.foregn_key==undefined">
+					      		<input type="{{a.type}}" class="form-control" 
+					      		ng-model="post[a.model]">
+					      	</div>
+
+					      	<div ng-if="a.foregn_key">
+					      		<select class="form-control" ng-model="post.id_category"
+					      		convert-to-number>
+					      			<option ng-repeat="b in a.data" value="{{b.id}}">
+					      				{{ b[a.parent_label] }}
+					      			</option>
+					      		</select>
+					      	</div>
+
+					    </div>
+				  	</div> 
+
+				  	<div ng-if="action=='delete'"> 
+				  		Are you sure to delete data {{post[table.label]}} ?
+				  	</div>       
+		      
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">
+		        	Close
+		        </button>
+		        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="save()">
+		         	Save
+		        </button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</form>

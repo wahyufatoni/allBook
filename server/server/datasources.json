@@ -1,0 +1,22 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "mysql": {
+    "host": "localhost",
+    "port": 0,
+    "url": "",
+    "database": "allBook",
+    "password": "admin",
+    "name": "mysql",
+    "user": "root",
+    "connector": "mysql"
+  },
+  "myfile": {
+    "name": "myfile",
+    "connector": "loopback-component-storage",
+    "provider": "filesystem",
+    "root": "./client/image"
+  }
+}

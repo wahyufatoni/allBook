@@ -1,0 +1,7 @@
+	<ul class="nav nav-tabs" ng-controller="nav">
+	  <li role="presentation" ng-repeat="a in navs" class="{{style[a.active]}}">
+	  		<a ui-sref="{{a.state}}" ng-click="setActive($index)">{{a.label}}</a>
+	  </li>
+	</ul>
+	<br>
+	

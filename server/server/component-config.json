@@ -1,0 +1,8 @@
+{
+  "loopback-component-explorer": {
+    "mountPath": "/explorer"
+  },
+  "@mean-expert/loopback-component-realtime": {
+    "auth": true // For this example, we will see authentication in another post.
+  }
+}
